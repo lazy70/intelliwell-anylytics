@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IntelliWell Analytics (Synthetic Demo)</title>
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js" defer></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>IntelliWell Analytics</h1>
+      <p>Artificial-lift failure detection and production forecasting dashboard</p>
+    </div>
+    <div class="status-badge" role="status" aria-live="polite">
+      Data source: <strong>Synthetic demo data only</strong>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel controls">
+      <h2>Well Selection</h2>
+      <div class="control-grid">
+        <label for="wellSelector">Well</label>
+        <select id="wellSelector" aria-label="Select well"></select>
+        <label for="eventSeverityFilter">Event severity</label>
+        <select id="eventSeverityFilter" aria-label="Filter event severity">
+          <option value="all">All severities</option>
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Well Overview</h2>
+      <div id="wellMeta" class="well-meta"></div>
+      <div id="overviewCards" class="card-grid"></div>
+      <div id="liftIndicators" class="card-grid"></div>
+      <p class="synthetic-note">All values shown are generated synthetic demo values.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Failure-Risk Alerts</h2>
+      <div id="alertsState" class="empty-state" hidden>No alerts for this well.</div>
+      <ul id="alertsList" class="alert-list"></ul>
+    </section>
+
+    <section class="panel chart-panel">
+      <h2>Historical Sensors</h2>
+      <canvas id="sensorChart" aria-label="Historical sensor trends" role="img"></canvas>
+    </section>
+
+    <section class="panel">
+      <h2>Event Table</h2>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Severity</th>
+              <th>Lift Type</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+          <tbody id="eventRows"></tbody>
+        </table>
+      </div>
+      <div id="eventEmpty" class="empty-state" hidden>No events match the selected filter.</div>
+    </section>
+
+    <section class="panel chart-panel">
+      <h2>Production Forecast</h2>
+      <canvas id="forecastChart" aria-label="Actual versus forecast production" role="img"></canvas>
+      <p class="small-note">Forecast shows simple trend projection; Arps decline-curve is shown as a baseline.</p>
+    </section>
+
+    <section class="panel">
+      <h2>Wellbore Simulator (Simplified)</h2>
+      <form id="simForm" novalidate>
+        <div class="form-grid">
+          <label>Depth (ft)
+            <input type="number" name="depthFt" min="1000" max="20000" step="10" required />
+          </label>
+          <label>Inlet temperature (°C)
+            <input type="number" name="inletTempC" min="0" max="200" step="0.1" required />
+          </label>
+          <label>Initial rate
+            <input type="number" name="initialRate" min="1" max="20000" step="1" required />
+          </label>
+          <label>Diameter (in)
+            <input type="number" name="diameterIn" min="1" max="12" step="0.1" required />
+          </label>
+          <label>Formation pressure (psi)
+            <input type="number" name="formationPressurePsi" min="100" max="12000" step="1" required />
+          </label>
+          <label>Geothermal gradient (°C / 100 ft)
+            <input type="number" name="geothermalGradient" min="0.2" max="2.5" step="0.01" value="0.9" required />
+          </label>
+          <label>Fluid type
+            <select name="fluidType" required>
+              <option value="oil">Oil</option>
+              <option value="gas">Gas</option>
+            </select>
+          </label>
+          <label>Completion type
+            <select name="completionType" required>
+              <option value="open-hole">Open-hole</option>
+              <option value="cased-hole">Cased-hole</option>
+              <option value="horizontal">Horizontal</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Run simulation</button>
+      </form>
+      <div id="simError" class="error-state" hidden></div>
+      <div id="simResult" class="sim-result" hidden></div>
+      <div class="small-note">
+        <strong>Assumptions and limitations:</strong> single-phase approximation, fixed gradient, and simplified hydrostatic/friction terms. Results are synthetic and not field-validated.
+      </div>
+    </section>
+  </main>
+</body>
+</html>
